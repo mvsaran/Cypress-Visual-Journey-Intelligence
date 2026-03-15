@@ -1,4 +1,8 @@
-# 🎭 Cypress Visual Journey Intelligence
+# Cypress Visual Journey Intelligence
+
+<div align="center">
+  <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/cypress.svg" width="80" height="80" alt="Cypress Logo" />
+</div>
 
 > **Visual AI-powered E2E workflow automation for modern web applications.**
 
@@ -6,14 +10,6 @@
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?style=flat&logo=openai)](https://openai.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat&logo=node.js)](https://nodejs.org)
-
----
-
-## 👤 Author
-
-**Saran Kumar**  
-Senior QA Architect & Full Stack Automation Engineer  
-*Specializing in AI-powered test automation frameworks*
 
 ---
 
@@ -483,7 +479,7 @@ No signup or backend setup required.
 
 ```
 ═══════════════════════════════════════════════════════════════
-  🎭  VISUAL JOURNEY INTELLIGENCE — STORY MODE REPORT
+  VISUAL JOURNEY INTELLIGENCE — STORY MODE REPORT
   Author   : Saran Kumar
   Generated: 3/15/2026, 10:17:54 AM IST
 ═══════════════════════════════════════════════════════════════
@@ -534,6 +530,18 @@ git push -u origin main
 
 ---
 
+## 🏗️ Utilizing in New Projects
+
+Cypress Visual Journey Intelligence is designed to be highly adaptable. To utilize this framework in a new project, follow these simple steps:
+
+1. **Define Your Steps:** Update `cypress/fixtures/workflowData.json` with your project's specific user journey steps. Make sure to assign a unique `action` string to each step.
+2. **Create Page Objects:** Add your application's pages as class models within the `cypress/pages/` folder.
+3. **Map Actions:** Open `cypress/support/workflowRunner.js` and map the `action` strings from your workflow JSON to your new page object functions inside the `stepActions` constant.
+4. **Environment Config:** Update the `.env` file with the `BASE_URL` corresponding to your new target application. Ensure `OPENAI_API_KEY` is configured.
+5. **Run & Export:** Run `npm run full:run` to execute your custom journey, and use the "Export PDF" button inside `report.html` to share results with stakeholders!
+
+---
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -552,4 +560,8 @@ MIT © 2026 Saran Kumar
 ## 🏁 Project Tagline
 
 > *"Visual AI-powered E2E workflow automation for modern web applications."*
-> — **Saran Kumar**, Senior QA Architect
+
+> ## 👤 Author
+
+**Saran Kumar**  
+

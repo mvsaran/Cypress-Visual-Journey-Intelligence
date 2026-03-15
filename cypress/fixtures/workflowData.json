@@ -1,94 +1,89 @@
-/**
- * ============================================================
- * ECOMMERCE WORKFLOW DEFINITION
- * Visual Journey Intelligence - Cypress Visual Journey
- * ============================================================
- *
- * Each step maps to an actual Cypress command via the WorkflowRunner.
- * Supported risk levels: low | medium | high | critical
- */
-
-export const ecommerceWorkflow = [
+[
   {
-    id: "visit",
-    icon: "🧑",
-    label: "Visit Site",
-    action: "visitHomePage",
-    risk: "low",
-    description: "Customer visits the e-commerce homepage",
-    selector: null,
-    value: null
+    "id": "visit",
+    "icon": "🧑",
+    "label": "Visit Site",
+    "action": "visitHomePage",
+    "risk": "low",
+    "description": "Customer visits the e-commerce homepage",
+    "selector": null,
+    "value": null
   },
   {
-    id: "login",
-    icon: "🔐",
-    label: "Login",
-    action: "loginUser",
-    risk: "medium",
-    description: "Customer logs in with valid credentials",
-    selector: "#user-name",
-    value: { username: "standard_user", password: "secret_sauce" }
+    "id": "login",
+    "icon": "🔐",
+    "label": "Login",
+    "action": "loginUser",
+    "risk": "medium",
+    "description": "Customer logs in with valid credentials",
+    "selector": "#user-name",
+    "value": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    }
   },
   {
-    id: "search",
-    icon: "🔎",
-    label: "Browse Products",
-    action: "browseProducts",
-    risk: "medium",
-    description: "Customer browses the product catalog",
-    selector: ".inventory_list",
-    value: null
+    "id": "search",
+    "icon": "🔎",
+    "label": "Browse Products",
+    "action": "browseProducts",
+    "risk": "medium",
+    "description": "Customer browses the product catalog",
+    "selector": ".inventory_list",
+    "value": null
   },
   {
-    id: "product",
-    icon: "📦",
-    label: "Open Product",
-    action: "openFirstProduct",
-    risk: "medium",
-    description: "Customer opens the first available product",
-    selector: ".inventory_item_name",
-    value: null
+    "id": "product",
+    "icon": "📦",
+    "label": "Open Product",
+    "action": "openFirstProduct",
+    "risk": "medium",
+    "description": "Customer opens the first available product",
+    "selector": ".inventory_item_name",
+    "value": null
   },
   {
-    id: "cart",
-    icon: "🛒",
-    label: "Add To Cart",
-    action: "addToCart",
-    risk: "high",
-    description: "Customer adds the selected product to cart",
-    selector: "[data-test='add-to-cart']",
-    value: null
+    "id": "cart",
+    "icon": "🛒",
+    "label": "Add To Cart",
+    "action": "addToCart",
+    "risk": "high",
+    "description": "Customer adds the selected product to cart",
+    "selector": "[data-test='add-to-cart']",
+    "value": null
   },
   {
-    id: "viewcart",
-    icon: "👜",
-    label: "View Cart",
-    action: "viewCart",
-    risk: "high",
-    description: "Customer views the shopping cart",
-    selector: ".shopping_cart_link",
-    value: null
+    "id": "viewcart",
+    "icon": "👜",
+    "label": "View Cart",
+    "action": "viewCart",
+    "risk": "high",
+    "description": "Customer views the shopping cart",
+    "selector": ".shopping_cart_link",
+    "value": null
   },
   {
-    id: "checkout",
-    icon: "💳",
-    label: "Checkout",
-    action: "proceedToCheckout",
-    risk: "critical",
-    description: "Customer proceeds through checkout flow",
-    selector: "[data-test='checkout']",
-    value: { firstName: "John", lastName: "Doe", zip: "10001" }
+    "id": "checkout",
+    "icon": "💳",
+    "label": "Checkout",
+    "action": "proceedToCheckout",
+    "risk": "critical",
+    "description": "Customer proceeds through checkout flow",
+    "selector": "[data-test='checkout']",
+    "value": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "zip": "10001"
+    }
   },
   {
-    id: "success",
-    icon: "✅",
-    label: "Order Success",
-    action: "verifyOrderSuccess",
-    risk: "critical",
-    description: "Order is confirmed and placed successfully",
-    selector: ".complete-header",
-    value: null
+    "id": "success",
+    "icon": "✅",
+    "label": "Order Success",
+    "action": "verifyOrderSuccess",
+    "risk": "critical",
+    "description": "Order is confirmed and placed successfully",
+    "selector": ".complete-header",
+    "value": null
   }
-];
-
-export default ecommerceWorkflow;
+]

@@ -156,7 +156,7 @@ function executeStepAction(step) {
 // -------------------------------------------------------
 // Main Test Suite
 // -------------------------------------------------------
-describe('🎭 Visual Journey Intelligence — E-Commerce Workflow', () => {
+describe('Visual Journey Intelligence — E-Commerce Workflow', () => {
   const results = [];
   let stepStartTime = 0;
   let currentStepIndex = 0;

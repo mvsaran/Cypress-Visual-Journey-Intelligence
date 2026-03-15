@@ -21,7 +21,7 @@ const AI_ANALYSIS_PATH = '../reports/ai-analysis.json';
 function buildStoryReport(results, aiAnalysis) {
   const lines = [];
   lines.push('═══════════════════════════════════════════════════════════════');
-  lines.push('  🎭  VISUAL JOURNEY INTELLIGENCE — STORY MODE REPORT');
+  lines.push('  VISUAL JOURNEY INTELLIGENCE — STORY MODE REPORT');
   lines.push('  Generated: ' + new Date().toLocaleString());
   lines.push('═══════════════════════════════════════════════════════════════\n');
 
