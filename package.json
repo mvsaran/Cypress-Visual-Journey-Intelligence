@@ -1,0 +1,29 @@
+{
+  "name": "cypress-visual-journey-intelligence",
+  "version": "1.0.0",
+  "description": "Visual AI-powered E2E workflow automation for modern web applications.",
+  "author": "Cypress Visual Journey Intelligence",
+  "license": "MIT",
+  "scripts": {
+    "test": "cypress run --spec 'cypress/e2e/visualWorkflow.cy.js'",
+    "test:headed": "cypress open",
+    "test:report": "cypress run --spec 'cypress/e2e/visualWorkflow.cy.js' --reporter mochawesome --reporter-options reportDir=reports/mochawesome,overwrite=false,html=false,json=true",
+    "generate:report": "mochawesome-merge reports/mochawesome/*.json > reports/mochawesome.json && marge reports/mochawesome.json -f report -o reports/mochawesome",
+    "dashboard": "npx serve visual-dashboard -l 3001",
+    "analyze:ai": "node scripts/runAiAnalysis.js",
+    "open:report": "start reports/report.html",
+    "full:run": "npm run test && npm run analyze:ai",
+    "serve:all": "npx serve . -l 3000"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.1",
+    "openai": "^4.28.0"
+  },
+  "devDependencies": {
+    "cypress": "^13.6.4",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0"
+  }
+}

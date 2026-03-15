@@ -1,0 +1,55 @@
+═══════════════════════════════════════════════════════════════
+  🎭  VISUAL JOURNEY INTELLIGENCE — STORY MODE REPORT
+  Author   : Saran Kumar
+  Generated: 15/3/2026, 10:24:28 am
+═══════════════════════════════════════════════════════════════
+
+🧑  Customer visits the e-commerce homepage
+   ✅ PASSED  |  ⏱️ 0.85s  |  📍 /
+
+🔐  Customer logs in with valid credentials
+   ✅ PASSED  |  ⏱️ 1.20s  |  📍 /
+
+🔎  Customer browses the product catalog
+   ✅ PASSED  |  ⏱️ 0.95s  |  📍 /inventory.html
+
+📦  Customer opens the first available product
+   ✅ PASSED  |  ⏱️ 0.78s  |  📍 /inventory-item.html
+
+🛒  Customer adds the selected product to cart
+   ✅ PASSED  |  ⏱️ 0.62s  |  📍 /inventory-item.html
+
+👜  Customer views the shopping cart
+   ✅ PASSED  |  ⏱️ 0.54s  |  📍 /cart.html
+
+💳  Customer proceeds through checkout flow
+   ❌ FAILED
+
+   🤖 AI FAILURE ANALYSIS:
+   ─────────────────────────────────────────────
+   📋 Summary      : The test failed because the checkout button was not found on the cart page.
+   🔍 Root Cause   : The DOM does not contain an element with [data-test='checkout'], indicating a possible change in the checkout button's identifier or a missing element.
+   💼 Biz Impact   : Users are unable to proceed to checkout, potentially leading to lost sales and decreased conversion rates.
+   🔧 Fix          : 1. Verify if the checkout button is supposed to be on the page. 2. Update the test to use the correct selector if it has changed. 3. Example: cy.get('[data-test="checkout-btn"]').click(); if the new selector is available.
+   🎯 Better Sel.  : Primary: [data-test='checkout-btn'], Fallback: .btn_primary.checkout_button if data-test attribute is missing.
+   🐛 Product Bug? : This is likely a product bug if the checkout button should be present but isn't. Verify against the product's functional requirements.
+   🛡️ Prevention   : Implement retry logic for dynamic elements, use network interceptors to ensure page load completion, and enforce data-test attribute policies.
+   🔬 Debug Steps  : 1. Check DOM for [data-test='checkout'] presence. 2. Confirm recent changes in the checkout flow. 3. Consult product requirements to verify button presence.
+   ⚠️  Related Risks: Any step involving navigation or button clicks may fail if selector changes are not addressed.
+   📊 Confidence   : 85%
+   🔢 Tokens Used  : 832
+
+✅  [SKIPPED] Order Success
+   ⏭️  Skipped — previous critical step failed
+
+═══════════════════════════════════════════════════════════════
+  📊 SUMMARY
+  Total Steps  : 8
+  ✅ Passed    : 6
+  ❌ Failed    : 1
+  ⏭️  Skipped   : 1
+  ⏱️  Total Time : 6.52s
+  📊 Pass Rate  : 75%
+  🤖 AI Provider: OPENAI (gpt-4o)
+  👤 Author     : Saran Kumar
+═══════════════════════════════════════════════════════════════

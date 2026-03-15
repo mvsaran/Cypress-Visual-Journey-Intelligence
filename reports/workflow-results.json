@@ -1,0 +1,99 @@
+[
+  {
+    "step": "visit",
+    "icon": "🧑",
+    "label": "Visit Site",
+    "status": "passed",
+    "duration": 850,
+    "screenshot": null,
+    "error": null,
+    "url": "https://www.saucedemo.com",
+    "risk": "low",
+    "description": "Customer visits the e-commerce homepage"
+  },
+  {
+    "step": "login",
+    "icon": "🔐",
+    "label": "Login",
+    "status": "passed",
+    "duration": 1200,
+    "screenshot": null,
+    "error": null,
+    "url": "https://www.saucedemo.com",
+    "risk": "medium",
+    "description": "Customer logs in with valid credentials"
+  },
+  {
+    "step": "search",
+    "icon": "🔎",
+    "label": "Browse Products",
+    "status": "passed",
+    "duration": 950,
+    "screenshot": null,
+    "error": null,
+    "url": "https://www.saucedemo.com/inventory.html",
+    "risk": "medium",
+    "description": "Customer browses the product catalog"
+  },
+  {
+    "step": "product",
+    "icon": "📦",
+    "label": "Open Product",
+    "status": "passed",
+    "duration": 780,
+    "screenshot": null,
+    "error": null,
+    "url": "https://www.saucedemo.com/inventory-item.html",
+    "risk": "medium",
+    "description": "Customer opens the first available product"
+  },
+  {
+    "step": "cart",
+    "icon": "🛒",
+    "label": "Add To Cart",
+    "status": "passed",
+    "duration": 620,
+    "screenshot": null,
+    "error": null,
+    "url": "https://www.saucedemo.com/inventory-item.html",
+    "risk": "high",
+    "description": "Customer adds the selected product to cart"
+  },
+  {
+    "step": "viewcart",
+    "icon": "👜",
+    "label": "View Cart",
+    "status": "passed",
+    "duration": 540,
+    "screenshot": null,
+    "error": null,
+    "url": "https://www.saucedemo.com/cart.html",
+    "risk": "high",
+    "description": "Customer views the shopping cart"
+  },
+  {
+    "step": "checkout",
+    "icon": "💳",
+    "label": "Checkout",
+    "status": "failed",
+    "duration": 1580,
+    "screenshot": "cypress/screenshots/checkout_failed.png",
+    "error": "Timed out retrying after 10000ms: Expected to find element: [data-test='checkout'] but never found it",
+    "url": "https://www.saucedemo.com/cart.html",
+    "risk": "critical",
+    "description": "Customer proceeds through checkout flow",
+    "domSnapshot": "<div class='cart_footer'><a class='btn_secondary' href='/inventory.html'>Continue Shopping</a></div>"
+  },
+  {
+    "step": "success",
+    "icon": "✅",
+    "label": "Order Success",
+    "status": "skipped",
+    "duration": 0,
+    "screenshot": null,
+    "error": null,
+    "url": null,
+    "risk": "critical",
+    "description": "Order is confirmed and placed successfully"
+  }
+]

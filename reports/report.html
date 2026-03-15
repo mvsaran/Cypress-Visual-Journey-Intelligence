@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cypress Visual Journey Intelligence — Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',system-ui,sans-serif;background:#0a0b14;color:#f0f1ff;min-height:100vh;line-height:1.6}
+    a{color:#6366f1}
+    /* Header */
+    .header{background:linear-gradient(135deg,#0d0e1e,#12132a);border-bottom:1px solid rgba(99,102,241,0.2);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+    .logo{display:flex;align-items:center;gap:16px}
+    .logo-icon{width:52px;height:52px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+    .logo h1{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#fff 40%,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .logo p{font-size:0.78rem;color:#64748b;font-style:italic;margin-top:2px}
+    .meta{text-align:right;font-size:0.78rem;color:#64748b}
+    .meta strong{color:#94a3b8;display:block;font-size:0.82rem;margin-bottom:4px}
+    /* Stats */
+    .stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;padding:32px 48px;background:#10111d;border-bottom:1px solid rgba(99,102,241,0.1)}
+    .stat{background:#151728;border:1px solid rgba(99,102,241,0.15);border-radius:12px;padding:20px;display:flex;gap:14px;align-items:center}
+    .stat-icon{font-size:1.6rem}
+    .stat-val{font-size:1.6rem;font-weight:800;line-height:1}
+    .stat-key{font-size:0.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-top:2px}
+    /* Journey bar */
+    .journey{padding:24px 48px;background:#0d0e1e;border-bottom:1px solid rgba(99,102,241,0.1);font-size:0.82rem;color:#94a3b8;word-break:break-word}
+    .journey strong{color:#f0f1ff;display:block;margin-bottom:8px;font-size:0.9rem}
+    .journey-line{background:#151728;border:1px solid rgba(99,102,241,0.15);border-radius:8px;padding:14px 20px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#a5b4fc}
+    /* Progress */
+    .progress-wrap{padding:20px 48px;background:#0d0e1e;border-bottom:1px solid rgba(99,102,241,0.1);display:flex;align-items:center;gap:16px}
+    .progress-track{flex:1;height:8px;background:rgba(99,102,241,0.12);border-radius:99px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#10b981,#06b6d4);border-radius:99px;transition:width .8s ease}
+    .progress-lbl{font-size:0.8rem;color:#94a3b8;font-weight:600;white-space:nowrap}
+    /* Table */
+    .table-wrap{padding:32px 48px}
+    .table-wrap h2{font-size:1.1rem;font-weight:700;margin-bottom:20px;color:#f0f1ff}
+    table{width:100%;border-collapse:collapse;background:#151728;border:1px solid rgba(99,102,241,0.15);border-radius:12px;overflow:hidden}
+    th{background:#10111d;padding:14px 16px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#64748b;text-align:left;border-bottom:1px solid rgba(99,102,241,0.15)}
+    td{padding:14px 16px;border-bottom:1px solid rgba(99,102,241,0.08);font-size:0.82rem;vertical-align:top}
+    .step-row:hover{background:#1c1f36}
+    .step-row.status-failed td{border-left:3px solid #f43f5e}
+    .step-row.status-passed td{border-left:3px solid #10b981}
+    .step-row.status-skipped td{border-left:3px solid #64748b;opacity:.6}
+    .icon-cell{font-size:1.4rem;text-align:center}
+    .badge{font-size:0.65rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+    .error-box{background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.25);border-radius:8px;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#f43f5e;word-break:break-all;margin:0 16px 12px}
+    .error-pill{background:rgba(244,63,94,0.15);color:#f43f5e;border:1px solid rgba(244,63,94,0.3);padding:2px 8px;border-radius:4px;font-size:0.68rem;font-weight:600;cursor:pointer}
+    /* AI Panel */
+    .ai-panel{background:linear-gradient(135deg,rgba(99,102,241,0.06),rgba(139,92,246,0.04));border-top:1px solid rgba(99,102,241,0.15);margin:0 0 4px;padding:24px 32px}
+    .ai-panel-header{font-size:0.85rem;font-weight:700;color:#a5b4fc;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+    .ai-confidence{font-size:0.72rem;background:rgba(99,102,241,0.15);color:#818cf8;border:1px solid rgba(99,102,241,0.3);padding:3px 10px;border-radius:20px;font-weight:700}
+    .ai-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .ai-item{background:rgba(15,16,28,0.6);border:1px solid rgba(99,102,241,0.12);border-radius:8px;padding:16px}
+    .ai-item strong{font-size:0.72rem;text-transform:uppercase;letter-spacing:.06em;color:#818cf8;display:block;margin-bottom:8px}
+    .ai-item p{font-size:0.78rem;color:#94a3b8;line-height:1.6}
+    .ai-item pre{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#a5b4fc;background:rgba(0,0,0,0.3);border-radius:6px;padding:10px;white-space:pre-wrap;word-break:break-word;margin-top:6px}
+    .ai-item code{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#06b6d4;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);padding:6px 10px;border-radius:6px;display:block;margin-top:6px;word-break:break-all}
+    /* Story */
+    .story-wrap{padding:0 48px 32px}
+    .story-wrap h2{font-size:1.1rem;font-weight:700;margin-bottom:20px;color:#f0f1ff}
+    .story-box{background:#151728;border:1px solid rgba(99,102,241,0.15);border-radius:12px;padding:28px 32px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.9;color:#94a3b8;white-space:pre-wrap;max-height:500px;overflow-y:auto}
+    /* Footer */
+    .footer{text-align:center;padding:28px 48px;font-size:0.75rem;color:#475569;border-top:1px solid rgba(99,102,241,0.1);background:#0d0e1e}
+    .footer strong{color:#818cf8}
+    /* Print */
+    @media print{
+      body{background:#fff;color:#111}
+      .header,.stats,.journey,.table-wrap,.story-wrap,.footer{padding-left:24px;padding-right:24px}
+      table{border:1px solid #e2e8f0}
+      th{background:#f8fafc;color:#374151}
+      td{color:#374151;border-color:#e2e8f0}
+      .ai-panel{background:#f8fafc}
+      .story-box{background:#f8fafc;color:#374151;max-height:none}
+    }
+    @media(max-width:768px){
+      .header,.stats,.journey,.table-wrap,.story-wrap,.footer,.progress-wrap{padding-left:16px;padding-right:16px}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .ai-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">🎭</div>
+    <div>
+      <h1>Cypress Visual Journey Intelligence</h1>
+      <p>Visual AI-powered E2E workflow automation for modern web applications.</p>
+    </div>
+  </div>
+  <div class="meta">
+    <strong>Execution Report</strong>
+    Generated: 15/3/2026, 10:24:28 am<br/>
+    Author: Saran Kumar<br/>
+    AI Provider: OPENAI · gpt-4o<br/>
+    Target: https://www.saucedemo.com
+  </div>
+</header>
+
+<section class="stats">
+  <div class="stat"><div class="stat-icon">📋</div><div><div class="stat-val">8</div><div class="stat-key">Total Steps</div></div></div>
+  <div class="stat"><div class="stat-icon">✅</div><div><div class="stat-val" style="color:#10b981">6</div><div class="stat-key">Passed</div></div></div>
+  <div class="stat"><div class="stat-icon">❌</div><div><div class="stat-val" style="color:#f43f5e">1</div><div class="stat-key">Failed</div></div></div>
+  <div class="stat"><div class="stat-icon">⏭️</div><div><div class="stat-val" style="color:#64748b">1</div><div class="stat-key">Skipped</div></div></div>
+  <div class="stat"><div class="stat-icon">⏱️</div><div><div class="stat-val">6.5s</div><div class="stat-key">Total Time</div></div></div>
+  <div class="stat"><div class="stat-icon">📊</div><div><div class="stat-val" style="color:#f59e0b">75%</div><div class="stat-key">Pass Rate</div></div></div>
+</section>
+
+<section class="journey">
+  <strong>🗺️ Journey Execution Map</strong>
+  <div class="journey-line">🧑 Visit Site → 🔐 Login → 🔎 Browse Products → 📦 Open Product → 🛒 Add To Cart → 👜 View Cart → 💳 Checkout → ✅ Order Success</div>
+</section>
+
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" style="width:75%"></div></div>
+  <span class="progress-lbl">75% complete · 6/8 steps passed</span>
+</div>
+
+<div class="table-wrap">
+  <h2>📊 Step Execution Details</h2>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Step</th>
+        <th>Status</th>
+        <th>Risk</th>
+        <th>Duration</th>
+        <th>Page</th>
+        <th>Error</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="step-row status-passed">
+        <td class="icon-cell">🧑</td>
+        <td><strong>Visit Site</strong><br/><small>Customer visits the e-commerce homepage</small></td>
+        <td><span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98155">PASSED</span></td>
+        <td><span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98155">LOW</span></td>
+        <td>0.85s</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">/</td>
+        <td>—</td>
+      </tr>
+      
+      
+      <tr class="step-row status-passed">
+        <td class="icon-cell">🔐</td>
+        <td><strong>Login</strong><br/><small>Customer logs in with valid credentials</small></td>
+        <td><span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98155">PASSED</span></td>
+        <td><span class="badge" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b55">MEDIUM</span></td>
+        <td>1.20s</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">/</td>
+        <td>—</td>
+      </tr>
+      
+      
+      <tr class="step-row status-passed">
+        <td class="icon-cell">🔎</td>
+        <td><strong>Browse Products</strong><br/><small>Customer browses the product catalog</small></td>
+        <td><span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98155">PASSED</span></td>
+        <td><span class="badge" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b55">MEDIUM</span></td>
+        <td>0.95s</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">/inventory.html</td>
+        <td>—</td>
+      </tr>
+      
+      
+      <tr class="step-row status-passed">
+        <td class="icon-cell">📦</td>
+        <td><strong>Open Product</strong><br/><small>Customer opens the first available product</small></td>
+        <td><span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98155">PASSED</span></td>
+        <td><span class="badge" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b55">MEDIUM</span></td>
+        <td>0.78s</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">/inventory-item.html</td>
+        <td>—</td>
+      </tr>
+      
+      
+      <tr class="step-row status-passed">
+        <td class="icon-cell">🛒</td>
+        <td><strong>Add To Cart</strong><br/><small>Customer adds the selected product to cart</small></td>
+        <td><span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98155">PASSED</span></td>
+        <td><span class="badge" style="background:#f9731622;color:#f97316;border:1px solid #f9731655">HIGH</span></td>
+        <td>0.62s</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">/inventory-item.html</td>
+        <td>—</td>
+      </tr>
+      
+      
+      <tr class="step-row status-passed">
+        <td class="icon-cell">👜</td>
+        <td><strong>View Cart</strong><br/><small>Customer views the shopping cart</small></td>
+        <td><span class="badge" style="background:#10b98122;color:#10b981;border:1px solid #10b98155">PASSED</span></td>
+        <td><span class="badge" style="background:#f9731622;color:#f97316;border:1px solid #f9731655">HIGH</span></td>
+        <td>0.54s</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">/cart.html</td>
+        <td>—</td>
+      </tr>
+      
+      
+      <tr class="step-row status-failed">
+        <td class="icon-cell">💳</td>
+        <td><strong>Checkout</strong><br/><small>Customer proceeds through checkout flow</small></td>
+        <td><span class="badge" style="background:#f43f5e22;color:#f43f5e;border:1px solid #f43f5e55">FAILED</span></td>
+        <td><span class="badge" style="background:#f43f5e22;color:#f43f5e;border:1px solid #f43f5e55">CRITICAL</span></td>
+        <td>1.58s</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">/cart.html</td>
+        <td><span class="error-pill" title="Timed out retrying after 10000ms: Expected to find element: [data-test='checkout'] but never found it">View Error</span></td>
+      </tr>
+      
+      <tr class="error-row">
+        <td colspan="7">
+          <div class="error-box">❌ Timed out retrying after 10000ms: Expected to find element: [data-test='checkout'] but never found it</div>
+        </td>
+      </tr>
+      
+        <tr class="ai-row">
+          <td colspan="7" style="padding:0">
+            <div class="ai-panel">
+              <div class="ai-panel-header">🤖 AI Failure Analysis &nbsp;<span class="ai-confidence">Confidence: 85%</span></div>
+              <div class="ai-grid">
+                <div class="ai-item"><strong>📋 Summary</strong><p>The test failed because the checkout button was not found on the cart page.</p></div>
+                <div class="ai-item"><strong>🔍 Root Cause</strong><p>The DOM does not contain an element with [data-test='checkout'], indicating a possible change in the checkout button's identifier or a missing element.</p></div>
+                <div class="ai-item"><strong>💼 Business Impact</strong><p>Users are unable to proceed to checkout, potentially leading to lost sales and decreased conversion rates.</p></div>
+                <div class="ai-item"><strong>🔧 Suggested Fix</strong><pre>1. Verify if the checkout button is supposed to be on the page. 2. Update the test to use the correct selector if it has changed. 3. Example: cy.get('[data-test="checkout-btn"]').click(); if the new selector is available.</pre></div>
+                <div class="ai-item"><strong>🎯 Better Selector</strong><code>Primary: [data-test='checkout-btn'], Fallback: .btn_primary.checkout_button if data-test attribute is missing.</code></div>
+                <div class="ai-item"><strong>🐛 Product Bug?</strong><p>This is likely a product bug if the checkout button should be present but isn't. Verify against the product's functional requirements.</p></div>
+                <div class="ai-item"><strong>🛡️ Prevention</strong><p>Implement retry logic for dynamic elements, use network interceptors to ensure page load completion, and enforce data-test attribute policies.</p></div>
+                <div class="ai-item"><strong>🔬 Debug Steps</strong><pre>1. Check DOM for [data-test='checkout'] presence. 2. Confirm recent changes in the checkout flow. 3. Consult product requirements to verify button presence.</pre></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      <tr class="step-row status-skipped">
+        <td class="icon-cell">✅</td>
+        <td><strong>Order Success</strong><br/><small>Order is confirmed and placed successfully</small></td>
+        <td><span class="badge" style="background:#64748b22;color:#64748b;border:1px solid #64748b55">SKIPPED</span></td>
+        <td><span class="badge" style="background:#f43f5e22;color:#f43f5e;border:1px solid #f43f5e55">CRITICAL</span></td>
+        <td>—</td>
+        <td style="font-family:monospace;font-size:0.72em;color:#64748b">—</td>
+        <td>—</td>
+      </tr>
+      
+      </tbody>
+  </table>
+</div>
+
+<div class="story-wrap">
+  <h2>📖 Story Mode Report</h2>
+  <div class="story-box" id="story">═══════════════════════════════════════════════════════════════
+  🎭  VISUAL JOURNEY INTELLIGENCE — STORY MODE REPORT
+  Author   : Saran Kumar
+  Generated: 15/3/2026, 10:24:28 am
+═══════════════════════════════════════════════════════════════
+
+🧑  Customer visits the e-commerce homepage
+   ✅ PASSED  |  ⏱️ 0.85s  |  📍 /
+
+🔐  Customer logs in with valid credentials
+   ✅ PASSED  |  ⏱️ 1.20s  |  📍 /
+
+🔎  Customer browses the product catalog
+   ✅ PASSED  |  ⏱️ 0.95s  |  📍 /inventory.html
+
+📦  Customer opens the first available product
+   ✅ PASSED  |  ⏱️ 0.78s  |  📍 /inventory-item.html
+
+🛒  Customer adds the selected product to cart
+   ✅ PASSED  |  ⏱️ 0.62s  |  📍 /inventory-item.html
+
+👜  Customer views the shopping cart
+   ✅ PASSED  |  ⏱️ 0.54s  |  📍 /cart.html
+
+💳  Customer proceeds through checkout flow
+   ❌ FAILED
+
+   🤖 AI FAILURE ANALYSIS:
+   ─────────────────────────────────────────────
+   📋 Summary      : The test failed because the checkout button was not found on the cart page.
+   🔍 Root Cause   : The DOM does not contain an element with [data-test='checkout'], indicating a possible change in the checkout button's identifier or a missing element.
+   💼 Biz Impact   : Users are unable to proceed to checkout, potentially leading to lost sales and decreased conversion rates.
+   🔧 Fix          : 1. Verify if the checkout button is supposed to be on the page. 2. Update the test to use the correct selector if it has changed. 3. Example: cy.get('[data-test="checkout-btn"]').click(); if the new selector is available.
+   🎯 Better Sel.  : Primary: [data-test='checkout-btn'], Fallback: .btn_primary.checkout_button if data-test attribute is missing.
+   🐛 Product Bug? : This is likely a product bug if the checkout button should be present but isn't. Verify against the product's functional requirements.
+   🛡️ Prevention   : Implement retry logic for dynamic elements, use network interceptors to ensure page load completion, and enforce data-test attribute policies.
+   🔬 Debug Steps  : 1. Check DOM for [data-test='checkout'] presence. 2. Confirm recent changes in the checkout flow. 3. Consult product requirements to verify button presence.
+   ⚠️  Related Risks: Any step involving navigation or button clicks may fail if selector changes are not addressed.
+   📊 Confidence   : 85%
+   🔢 Tokens Used  : 832
+
+✅  [SKIPPED] Order Success
+   ⏭️  Skipped — previous critical step failed
+
+═══════════════════════════════════════════════════════════════
+  📊 SUMMARY
+  Total Steps  : 8
+  ✅ Passed    : 6
+  ❌ Failed    : 1
+  ⏭️  Skipped   : 1
+  ⏱️  Total Time : 6.52s
+  📊 Pass Rate  : 75%
+  🤖 AI Provider: OPENAI (gpt-4o)
+  👤 Author     : Saran Kumar
+═══════════════════════════════════════════════════════════════</div>
+</div>
+
+<footer class="footer">
+  <strong>Cypress Visual Journey Intelligence</strong> &nbsp;·&nbsp;
+  Author: <strong>Saran Kumar</strong> &nbsp;·&nbsp;
+  AI Provider: OPENAI (gpt-4o) &nbsp;·&nbsp;
+  Generated: 15/3/2026, 10:24:28 am &nbsp;·&nbsp;
+  <a href="https://github.com/sarankumar" style="color:#6366f1">GitHub</a>
+</footer>
+
+</body>
+</html>

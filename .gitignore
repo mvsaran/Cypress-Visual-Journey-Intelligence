@@ -1,0 +1,29 @@
+# ─── Dependencies ─────────────────────────────────────────
+node_modules/
+
+# ─── Environment & Secrets (NEVER commit these) ───────────
+.env
+*.env
+.env.local
+.env.*.local
+secrets/
+*.key
+*.pem
+
+# ─── Cypress Artifacts ────────────────────────────────────
+cypress/screenshots/
+cypress/videos/
+
+# ─── Reports ──────────────────────────────────────────────
+reports/mochawesome/
+
+# ─── Media ────────────────────────────────────────────────
+*.png
+*.mp4
+*.webm
+
+# ─── OS & Editor ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+*.log

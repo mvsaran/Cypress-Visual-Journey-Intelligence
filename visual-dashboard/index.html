@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cypress Visual Journey Intelligence — Dashboard</title>
+  <meta name="description" content="AI-powered visual E2E workflow execution dashboard for Cypress automation. Visualize step-by-step test results, failure heatmaps, and AI debugging insights." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="header" role="banner">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="18" cy="18" r="18" fill="url(#brandGrad)"/>
+            <path d="M10 18 L14 22 L26 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="brandGrad" x1="0" y1="0" x2="36" y2="36">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Cypress Visual Journey Intelligence</h1>
+          <p class="brand-tagline">Visual AI-powered E2E workflow automation for modern web applications.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-refresh" class="btn btn-secondary" title="Refresh results from JSON">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Refresh
+        </button>
+        <button id="btn-export" class="btn btn-primary" title="Export story report">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Report
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ STATS BAR ═══════════════ -->
+  <section class="stats-bar" aria-label="Workflow summary statistics">
+    <div class="stats-inner">
+      <div class="stat-card" id="stat-total">
+        <div class="stat-icon">📋</div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-total-val">—</span>
+          <span class="stat-label">Total Steps</span>
+        </div>
+      </div>
+      <div class="stat-card stat-passed" id="stat-passed">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-passed-val">—</span>
+          <span class="stat-label">Passed</span>
+        </div>
+      </div>
+      <div class="stat-card stat-failed" id="stat-failed">
+        <div class="stat-icon">❌</div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-failed-val">—</span>
+          <span class="stat-label">Failed</span>
+        </div>
+      </div>
+      <div class="stat-card stat-skipped" id="stat-skipped">
+        <div class="stat-icon">⏭️</div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-skipped-val">—</span>
+          <span class="stat-label">Skipped</span>
+        </div>
+      </div>
+      <div class="stat-card stat-time" id="stat-time">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-time-val">—</span>
+          <span class="stat-label">Total Time</span>
+        </div>
+      </div>
+      <div class="stat-card stat-score" id="stat-score">
+        <div class="stat-icon">📊</div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-score-val">—</span>
+          <span class="stat-label">Pass Rate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PROGRESS TRACK ═══════════════ -->
+  <section class="journey-track" aria-label="Visual workflow journey">
+    <div class="section-header">
+      <h2>🗺️ Journey Execution Map</h2>
+      <span class="section-meta" id="journey-meta">Loading workflow...</span>
+    </div>
+    <div class="journey-flow" id="journey-flow" role="list" aria-label="Test step execution flow">
+      <!-- Steps injected by dashboard.js -->
+    </div>
+    <div class="progress-bar-wrap" aria-label="Overall pass progress">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-bar-fill" style="width:0%"></div>
+      </div>
+      <span class="progress-label" id="progress-label">0% complete</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════ STEP CARDS GRID ═══════════════ -->
+  <section class="steps-section" aria-label="Step detail cards">
+    <div class="section-header">
+      <h2>📊 Step Execution Details</h2>
+      <div class="filter-tabs" role="tablist" aria-label="Filter steps by status">
+        <button class="filter-tab active" id="filter-all" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="filter-tab" id="filter-passed" data-filter="passed" role="tab" aria-selected="false">✅ Passed</button>
+        <button class="filter-tab" id="filter-failed" data-filter="failed" role="tab" aria-selected="false">❌ Failed</button>
+        <button class="filter-tab" id="filter-skipped" data-filter="skipped" role="tab" aria-selected="false">⏭️ Skipped</button>
+      </div>
+    </div>
+    <div class="steps-grid" id="steps-grid" role="list" aria-label="Individual step results">
+      <!-- Cards injected by dashboard.js -->
+    </div>
+  </section>
+
+  <!-- ═══════════════ AI ANALYSIS SECTION ═══════════════ -->
+  <section class="ai-section" id="ai-section" aria-label="AI failure analysis" style="display:none">
+    <div class="section-header">
+      <h2>🤖 AI Failure Intelligence</h2>
+      <span class="ai-badge">Powered by OpenAI GPT-4o</span>
+    </div>
+    <div class="ai-cards" id="ai-cards">
+      <!-- AI analysis cards injected by dashboard.js -->
+    </div>
+  </section>
+
+  <!-- ═══════════════ STORY REPORT ═══════════════ -->
+  <section class="story-section" aria-label="Story mode report">
+    <div class="section-header">
+      <h2>📖 Story Mode Report</h2>
+      <span class="section-meta">Human-readable journey narrative</span>
+    </div>
+    <div class="story-scroll">
+      <pre class="story-report" id="story-report" aria-label="Story mode journey narrative">Loading story report...</pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════ HEATMAP ═══════════════ -->
+  <section class="heatmap-section" aria-label="Step failure heatmap">
+    <div class="section-header">
+      <h2>🔥 Risk & Failure Heatmap</h2>
+      <span class="section-meta">Risk-weighted step vulnerability analysis</span>
+    </div>
+    <div class="heatmap-grid" id="heatmap-grid" aria-label="Heatmap of test step risk and failures">
+      <!-- Heatmap injected by dashboard.js -->
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer" role="contentinfo">
+    <p>
+      <strong>Cypress Visual Journey Intelligence</strong> — Open Source QA Framework
+      &nbsp;·&nbsp; Built for modern e-commerce automation
+      &nbsp;·&nbsp; <span id="footer-time"></span>
+    </p>
+  </footer>
+
+  <!-- Step Detail Modal -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+      <h3 class="modal-title" id="modal-title">Step Details</h3>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

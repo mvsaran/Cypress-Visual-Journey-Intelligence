@@ -1,0 +1,24 @@
+[
+  {
+    "stepId": "checkout",
+    "label": "Checkout",
+    "risk": "critical",
+    "error": "Timed out retrying after 10000ms: Expected to find element: [data-test='checkout'] but never found it",
+    "analysis": {
+      "failureSummary": "The test failed because the checkout button was not found on the cart page.",
+      "likelyRootCause": "The DOM does not contain an element with [data-test='checkout'], indicating a possible change in the checkout button's identifier or a missing element.",
+      "businessImpact": "Users are unable to proceed to checkout, potentially leading to lost sales and decreased conversion rates.",
+      "suggestedFix": "1. Verify if the checkout button is supposed to be on the page. 2. Update the test to use the correct selector if it has changed. 3. Example: cy.get('[data-test=\"checkout-btn\"]').click(); if the new selector is available.",
+      "betterSelectorRecommendation": "Primary: [data-test='checkout-btn'], Fallback: .btn_primary.checkout_button if data-test attribute is missing.",
+      "possibleProductBug": "This is likely a product bug if the checkout button should be present but isn't. Verify against the product's functional requirements.",
+      "preventionStrategy": "Implement retry logic for dynamic elements, use network interceptors to ensure page load completion, and enforce data-test attribute policies.",
+      "debuggingSteps": "1. Check DOM for [data-test='checkout'] presence. 2. Confirm recent changes in the checkout flow. 3. Consult product requirements to verify button presence.",
+      "relatedRisks": "Any step involving navigation or button clicks may fail if selector changes are not addressed.",
+      "confidenceScore": 85
+    },
+    "tokensUsed": 832,
+    "model": "gpt-4o",
+    "provider": "openai",
+    "generatedAt": "2026-03-15T04:54:28.712Z"
+  }
+]
