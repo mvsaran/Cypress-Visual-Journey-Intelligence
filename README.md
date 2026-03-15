@@ -109,6 +109,14 @@ Each visual step maps to real Cypress automation actions and produces:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
+### 🧩 Core Architecture Layers
+
+1. **LAYER 1 — Workflow Definition (`workflowData.json`)**: This acts as the single source of truth for the entire user journey. Non-technical users or product managers can define the sequence of actions, assign risk levels, and customize test data using a simple, readable JSON format without writing any automation code.
+2. **LAYER 2 — Execution Engine (Cypress)**: The core Cypress automation framework. `visualWorkflow.cy.js` dynamically reads the workflow definition and executes each step using the robust Page Object Model (`cypress/pages/`). It seamlessly captures DOM snapshots, execution time, and screenshots.
+3. **LAYER 3 — Results**: The raw telemetry from the E2E test run. It generates `workflow-results.json` containing the status (`passed`, `failed`, or `skipped`), durations, errors, and risk scores for every executed step in the journey.
+4. **LAYER 4 — AI Failure Analyzer (`aiFailureAnalyzer.js`)**: The intelligent engine of the framework. If any steps fail, this layer sends the error context, CSS selector, and DOM snapshot to an AI provider (like OpenAI GPT-4o) using a specialized Senior QA Architect system prompt to determine the likely root cause, business impact, and actionable fixes.
+5. **LAYER 5 — Report Outputs (Visual Dashboard)**: The final consumption layer. It transforms the E2E telemetry and AI analysis into exportable HTML reports, human-readable text stories, and a rich, interactive Visual Dashboard with a progress track and failure heatmaps.
+
 ---
 
 ## 📁 Project Structure
@@ -561,7 +569,12 @@ MIT © 2026 Saran Kumar
 
 > *"Visual AI-powered E2E workflow automation for modern web applications."*
 
+---
+
+## ⭐ Support This Project
+
+If you find this repository useful for learning about AI-integrated testing frameworks, please consider dropping a **Star** ⭐️ on GitHub! It helps others discover the framework and motivates further development.
+
 > ## 👤 Author
 
-**Saran Kumar**  
-
+**Saran Kumar**
